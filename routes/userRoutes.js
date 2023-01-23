@@ -19,7 +19,7 @@ router
 
 router.route('/showMe').get(authenticateUser, showCurrentUsers); // <= get more info where to use this *show me* on front end
 router.route('/updateUser').patch(updateUser);
-router.route('/updatePassword').patch(updateUserPassword);
+router.route('/updatePassword').patch(authenticateUser, updateUserPassword);
 
 router.route('/:id').get(authenticateUser, getSingleUsers);
 

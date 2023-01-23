@@ -11,7 +11,12 @@ const authenticateUser = (req, res, next) => {
   }
   try {
     const payload = isTokenValid({ token });
-    req.user = { name: payload.name, userId: payload._id, role: payload.role };
+    // console.log(payload);
+    req.user = {
+      name: payload.name,
+      userId: payload.userId,
+      role: payload.role,
+    };
     next();
   } catch (error) {
     throw new CustomError.UnauthenticatedError('authentication Invalid');
