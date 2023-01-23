@@ -17,7 +17,7 @@ const attachCookiesToResponse = ({ res, user }) => {
     httpOnly: true,
     expires: new Date(Date.now() + oneDayTime),
     secure: process.env.NODE_ENV === 'production',
-    signed: true,
+    signed: true, // <= has to be checked more details what *signed* mean
   });
 
   // res.status(201).json({ user }); // <= we will remove
