@@ -1,6 +1,11 @@
 const User = require('../model/User');
 const { StatusCodes } = require('http-status-codes');
 const CustomError = require('../errors');
+const {
+  createToken,
+  attachCookiesToResponse,
+  checkPermissions,
+} = require('../utils');
 
 const getAllUsers = async (req, res) => {
   console.log(req.user);
@@ -10,11 +15,10 @@ const getAllUsers = async (req, res) => {
 
 const getSingleUsers = async (req, res) => {
   const user = await User.findOne({ _id: req.params.id }).select('-password');
-  // if (!user) {
-  //   console.log('ok');
-
-  //   throw new CustomError.NotFoundError(`No user with id:  ${req.params.id}`);
-  // }
+  if (!user) {
+    throw new CustomError.NotFoundError(`No user with id:  ${req.params.id}`);
+  }
+  checkPermissions(req.user, user._id);
   res.status(StatusCodes.OK).json({ user });
 };
 
@@ -22,8 +26,39 @@ const showCurrentUsers = async (req, res) => {
   res.status(StatusCodes.OK).json({ user: req.user });
 };
 
+// update user with  *findOneAndUpdate* <=== IMPORTANT
+
+// const updateUser = async (req, res) => {
+//   const { email, name } = req.body;
+//   if (!email && !name) {
+//     throw new CustomError.BadRequestError('please, provide all values');
+//   }
+//   const user = await User.findOneAndUpdate(
+//     { _id: req.user.userId },
+//     { email: email, name: name }, // <= we can use ES6 syntax here but i wrote the full assignment
+//     { new: true, runValidators: true }
+//   );
+//   const tokenUser = createToken(user);
+//   attachCookiesToResponse({ res, user: tokenUser });
+//   res.status(StatusCodes.OK).json({ user: tokenUser });
+// };
+
+// update user with  *user.save()*
+
 const updateUser = async (req, res) => {
-  res.send(req.body);
+  const { email, name } = req.body;
+  if (!email && !name) {
+    throw new CustomError.BadRequestError('please, provide all values');
+  }
+  const user = await User.findOne({ _id: req.user.userId });
+  user.email = email;
+  user.name = name;
+
+  await user.save();
+
+  const tokenUser = createToken(user);
+  attachCookiesToResponse({ res, user: tokenUser });
+  res.status(StatusCodes.OK).json({ user: tokenUser });
 };
 
 const updateUserPassword = async (req, res) => {
