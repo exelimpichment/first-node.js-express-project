@@ -22,8 +22,12 @@ const getAllProducts = async (req, res) => {
 const getSingleProduct = async (req, res) => {
   const { id: productId } = req.params;
   console.log(productId);
-  const product = await Product.findOne({ _id: productId });
-  console.log(product);
+  const product = await Product.findOne({ _id: productId })
+  .populate('reviews');
+  // ^ piece of mongoose Virtual
+  // ^ we cannot use just _populate_ because Product model has no linkage to
+  // ^ reviews
+
   if (!product) {
     console.log('ok');
     throw new CustomError.NotFoundError(`No product: ${productId}`);
