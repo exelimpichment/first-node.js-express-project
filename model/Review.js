@@ -35,4 +35,17 @@ const ReviewSchema = mongoose.Schema(
 ReviewSchema.index({ product: 1, user: 1 }, { unique: true });
 //      ^every user has to be able to leave  only one review. read more on this.
 
+ReviewSchema.statics.calculateAverageRating = async function (productId) {
+  console.log(productId);
+};
+// #328
+// ^ we cal this on schema not on instance that is why we use -
+// ^ ReviewSchema.statics
+ReviewSchema.post('save', async function () {
+  await this.constructor.calculateAverageRating(this.product);
+});
+ReviewSchema.post('remove', async function () {
+  await this.constructor.calculateAverageRating(this.product);
+});
+
 module.exports = mongoose.model('Review', ReviewSchema);
