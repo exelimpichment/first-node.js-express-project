@@ -66,7 +66,28 @@ const ProductSchema = new mongoose.Schema(
       required: true,
     },
   },
-  { timestamps: true }
+  { timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } }
+  //^syntax after *timestemp* is a  step to allow model to accept virtuals
+  //^ another part of syntax is located in productController.js - getSingleProduct function
 );
+
+ProductSchema.virtual('reviews', {
+  ref: 'Review',
+  localField: '_id',
+  foreignField: 'product',
+  justOne: false,
+  match: { rating: 5 }, //~<this will get only 5 star rating reviews
+});
+// ^ the problem with this we cannot query this.
+// ^ we get a response in one piece
+// ^ in order to be able to query we have to make a different setup
+// ^ please, proceed to _reviewController_
+
+ProductSchema.pre('remove', async function (next) {
+  await this.model('Review').deleteMany({ product: this._id });
+});
+// ^ we do not need reviews for product that we are about to delete
+
+// ^326
 
 module.exports = mongoose.model('Product', ProductSchema);
