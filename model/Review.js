@@ -36,7 +36,35 @@ ReviewSchema.index({ product: 1, user: 1 }, { unique: true });
 //      ^every user has to be able to leave  only one review. read more on this.
 
 ReviewSchema.statics.calculateAverageRating = async function (productId) {
-  console.log(productId);
+  const result = await this.aggregate([
+    {
+      $match: {
+        product: productId,
+      },
+    },
+    {
+      $group: {
+        _id: null,
+        averageRating: {
+          $avg: '$rating',
+        },
+        numOfReviews: {
+          $sum: 1,
+        },
+      },
+    },
+  ]);
+  try {
+    await this.model('Product').findOneAndUpdate(
+      { _id: productId },
+      {
+        averageRating: Math.ceil(result[0]?.averageRating || 0),
+        averageRating: result(result[0]?.numOfReviews || 0),
+      }
+    );
+  } catch (error) {
+    console.log(error);
+  }
 };
 // #328
 // ^ we cal this on schema not on instance that is why we use -
