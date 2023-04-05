@@ -18,6 +18,7 @@ const attachCookiesToResponse = ({ res, user }) => {
     expires: new Date(Date.now() + oneDayTime),
     secure: process.env.NODE_ENV === 'production',
     signed: true, // <= has to be checked more details what *signed* mean
+    sameSite: 'none',
   });
 
   // res.status(201).json({ user }); // <= we will remove

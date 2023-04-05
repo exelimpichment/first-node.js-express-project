@@ -18,7 +18,16 @@ app.use(
   })
 );
 app.use(helmet());
-app.use(cors());
+
+app.use(
+  cors({
+    origin: '*',
+    credentials: true,
+    allowedHeaders: ['Content-Type', 'Authorization', 'x-csrf-token'],
+    exposedHeaders: ['*', 'Authorization'],
+  })
+);
+
 app.use(mongoSanitize());
 const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
