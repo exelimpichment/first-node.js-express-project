@@ -16,7 +16,7 @@ const attachCookiesToResponse = ({ res, user }) => {
   res.cookie('token', token, {
     // secure: process.env.NODE_ENV === 'production',
     // secure: true,
-    // domain: '.vercel.app',
+    domain: '.onrender.com',
     path: '/',
     maxAge: 24 * 60 * 60 * 1000 * 365,
     signed: true, // <= has to be checked more details what *signed* mean
