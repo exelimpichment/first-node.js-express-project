@@ -23,7 +23,6 @@ const attachCookiesToResponse = ({ res, user }) => {
     httpOnly: true,
     sameSite: 'None',
     secure: true,
-    Secure,
   });
 };
 
