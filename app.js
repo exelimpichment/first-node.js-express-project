@@ -4,31 +4,31 @@ require('express-async-errors');
 // getting express
 const express = require('express');
 const app = express();
-const rateLimiter = require('express-rate-limit');
-const helmet = require('helmet');
-const xss = require('xss-clean');
+// const rateLimiter = require('express-rate-limit');
+// const helmet = require('helmet');
+// const xss = require('xss-clean');
 const cors = require('cors');
-const mongoSanitize = require('express-mongo-sanitize');
+// const mongoSanitize = require('express-mongo-sanitize');
 
-app.set('trust proxy', 1);
-app.use(
-  rateLimiter({
-    windowMs: 15 * 60 * 1000,
-    max: 60,
-  })
-);
-app.use(helmet());
+// app.set('trust proxy', 1);
+// app.use(
+//   rateLimiter({
+//     windowMs: 15 * 60 * 1000,
+//     max: 60,
+//   })
+// );
+// app.use(helmet());
 
 app.use(
   cors({
-    origin: '*',
-    credentials: true,
+    origin: ['http://127.0.0.1:5173', 'http://localhost:3000'], // res.set('Access-Control-Allow-Origin', req.headers.origin);
+    credentials: true, // res.set('Access-Control-Allow-Credentials', 'true');
     allowedHeaders: ['Content-Type', 'Authorization', 'x-csrf-token'],
-    exposedHeaders: ['*', 'Authorization'],
+    optionsSuccessStatus: 204,
   })
 );
 
-app.use(mongoSanitize());
+// app.use(mongoSanitize());
 const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
 const fileUpload = require('express-fileupload');

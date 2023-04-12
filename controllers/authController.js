@@ -3,36 +3,16 @@ const { StatusCodes } = require('http-status-codes');
 const CustomError = require('../errors');
 const { attachCookiesToResponse, createToken } = require('../utils');
 
-// const jwt = require('jsonwebtoken');  <=  migrated to jwt.js
 const register = async (req, res) => {
   const { email, name, password } = req.body;
-
   const isEmailExist = await User.findOne({ email });
-  //another way to check is mail is already in use except for
-  //  _unique: true_ field in User model
+
   if (isEmailExist) {
     throw new CustomError.BadRequestError('Email already exist');
   }
-  // to control that role is always _user_ not admin
-  // role can be changed to admin manually via mangoDB or
-  // using other dashboard application or smth like this
   const user = await User.create({ name, email, password });
+
   const tokenUser = createToken(user);
-  // const token = jwt.sign(tokenUser, process.env.JWT_SECRET, {
-  //   expiresIn: process.env.JWT_LIFETIME,
-  // });  <= replaced with the next line of code
-
-  // const token = createJWT({ payload: tokenUser }); < = not needed anymore
-
-  // res.status(StatusCodes.CREATED).json({ user: tokenUser, token }); <= this variant is for local storage token placement
-
-  ///////////////////////////////////////////////
-  // const oneDayTime = 1000 * 60 * 60 * 24;
-  // res.cookie('token', token, {
-  //   httpOnly: true,
-  //   expires: new Date(Date.now() + oneDayTime),
-  // });
-  /////////////////////////////////////////////// <=migrated to jwt
 
   attachCookiesToResponse({ res, user: tokenUser });
   res.status(StatusCodes.CREATED).json({ user: tokenUser }); // <= can be placed inside attach cookies
