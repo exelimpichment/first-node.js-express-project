@@ -19,29 +19,41 @@ const cors = require('cors');
 // );
 // app.use(helmet());
 
-app.use(
-  cors({
-    origin: [
-      'http://127.0.0.1:5173',
-      'http://localhost:3000',
-      // 'https://ciuchy-frontend-pmee.vercel.app',
-      'app',
-      'vercel.app',
-    ], // res.set('Access-Control-Allow-Origin', req.headers.origin);
-    credentials: true, // res.set('Access-Control-Allow-Credentials', 'true');
-    allowedHeaders: [
-      'Content-Type',
-      'Authorization',
-      'x-csrf-token',
-      'Origin',
-      'X-Requested-With',
-      'Content - Type',
-      'Accept',
-    ],
-    optionsSuccessStatus: 204,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  })
-);
+// app.use(
+//   cors({
+//     origin: [
+//       'http://127.0.0.1:5173',
+//       'http://localhost:3000',
+//       // 'https://ciuchy-frontend-pmee.vercel.app',
+//       'app',
+//       'vercel.app',
+//     ], // res.set('Access-Control-Allow-Origin', req.headers.origin);
+//     credentials: true, // res.set('Access-Control-Allow-Credentials', 'true');
+//     allowedHeaders: [
+//       'Content-Type',
+//       'Authorization',
+//       'x-csrf-token',
+//       'Origin',
+//       'X-Requested-With',
+//       'Content - Type',
+//       'Accept',
+//     ],
+//     optionsSuccessStatus: 204,
+//     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+//   })
+// );
+
+app.use(function (req, res, next) {
+  res.header(
+    'Access-Control-Allow-Origin',
+    'https://ciuchy-frontend-pmee.vercel.app'
+  ); // update to match the domain you will make the request from
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept'
+  );
+  next();
+});
 
 // app.use(mongoSanitize());
 const morgan = require('morgan');
