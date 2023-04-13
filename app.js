@@ -24,7 +24,7 @@ app.use(
     origin: [
       'http://127.0.0.1:5173',
       'http://localhost:3000',
-      'https://ciuchy-frontend-pmee.vercel.app',
+      'http://ciuchy-frontend-pmee.vercel.app',
     ], // res.set('Access-Control-Allow-Origin', req.headers.origin);
     credentials: true, // res.set('Access-Control-Allow-Credentials', 'true');
     allowedHeaders: [
