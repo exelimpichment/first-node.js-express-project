@@ -33,7 +33,6 @@ app.use(
       'x-csrf-token',
       'Origin',
       'X-Requested-With',
-      'Content - Type',
       'Accept',
     ],
     optionsSuccessStatus: 204,
