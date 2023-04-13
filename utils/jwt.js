@@ -25,7 +25,6 @@ const attachCookiesToResponse = ({ res, user }) => {
     secure: true,
   });
 };
-
 module.exports = {
   createJWT,
   isTokenValid,

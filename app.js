@@ -27,14 +27,7 @@ app.use(
       'https://ciuchy-frontend-pmee.vercel.app',
     ], // res.set('Access-Control-Allow-Origin', req.headers.origin);
     credentials: true, // res.set('Access-Control-Allow-Credentials', 'true');
-    allowedHeaders: [
-      'Content-Type',
-      'Authorization',
-      'x-csrf-token',
-      'Origin',
-      'X-Requested-With',
-      'Accept',
-    ],
+    allowedHeaders: ['Content-Type', 'Authorization', 'x-csrf-token'],
     optionsSuccessStatus: 204,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   })
