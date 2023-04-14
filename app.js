@@ -27,6 +27,7 @@ app.use(
       'https://ciuchy-frontend-pmee.vercel.app',
       'https://master--keen-starlight-b221da.netlify.app',
       'https://peaceful-tapioca-7fdae6.netlify.app',
+      'https://react-cors-testing-app.onrender.com/',
     ], // res.set('Access-Control-Allow-Origin', req.headers.origin);
     credentials: true, // res.set('Access-Control-Allow-Credentials', 'true');
     allowedHeaders: ['Content-Type', 'Authorization', 'x-csrf-token'],
