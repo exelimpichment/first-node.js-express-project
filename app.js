@@ -23,6 +23,7 @@ app.use(
   cors({
     origin: [
       'http://127.0.0.1:5173',
+      'https://ciuchy.store/authentication',
       'http://localhost:3000',
       'https://ciuchy-frontend-pmee.vercel.app',
       'https://master--keen-starlight-b221da.netlify.app',
