@@ -42,7 +42,7 @@ const logout = async (req, res) => {
     httpOnly: true,
     expires: new Date(Date.now() + 5 * 1000),
   });
-  res.status(StatusCodes.OK).json({ msg: 'user logged out' }); // <= no need to send this
+  res.status(StatusCodes.OK).json({ msg: '????' }); // <= no need to send this
   // this is only for testing to see some response.
   // front end does not need this
 };
